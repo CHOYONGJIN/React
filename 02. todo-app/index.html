@@ -1,0 +1,297 @@
+<!--
+    WEB - HTML, CSS, JS 
+
+    PROGRAMMING - C??, Java, Javascript, Python 
+
+    SERVER LANGUAGE - ASP, JSP, PHP
+
+    FRAMEWORK - SPRING, Node Express, DJANGO
+
+    Fonrtend Library - React
+
+    Database - Mysql, Oracle, Firebase
+
+    HTML, CSS, JS -> REACT -> Node js -> Firebase :: FULL STACK
+-->
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8" />
+    <title>TODO APP</title>
+    
+    <link rel="stylesheet" href="./styles/style.css" />
+</head>
+<body>
+    <div class="app">
+        <div class="app__inner">
+            <div class="app__header">
+                <div class="logo">
+                    <h1 class="logo__text">ToDo List App</h1>
+                </div>
+
+                <div class="search">
+                    <input type="text" id="search-keyword-js" class="search__inp" onkeydown="searchTodoKeydownHandler()" />
+                    <button type="button" class="search__btn" onclick="searchTodoHandler()"> 
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="app__body">
+                <div class="form-reg">
+                    <div>
+                        <label class="form-reg__chk"><input type="checkbox" id="todo-important-js" />IMPORTANT</label>
+                        <input type="text" id="todo-title-js" class="form-reg__inp" placeholder="ADD TODO ITEM" />
+                    </div>
+
+                    <div id="btn-insert-js">
+                        <button type="button" class="form-reg__btn form-reg__btn__color-blue" onclick="addTodoHandler()">ADD</button>
+                    </div>
+
+                    <div id="btn-update-js">
+                        <button type="button" class="form-reg__btn form-reg__btn__color-blue" onclick="updateTodoHandler()">UPDATE</button>
+                        <button type="button" class="form-reg__btn form-reg__btn__color-red" onclick="cancelTodoHandler()">CANCEL</button>
+                    </div>
+                </div>
+
+                <div class="item-list" id="item-list-js"></div>
+            </div>
+
+            <div class="app__footer">
+                <p>4LEAF SOFTWARE 2020 REACT STUDY TODO APP ALLRIGHTS RESERVED.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://kit.fontawesome.com/883397d8fc.js" crossorigin="anonymous"></script>
+    <script>
+        const todoList = []; // ?? ??? ?? ??
+        let todoSearchList = []; // ?? ??? ?? ??
+
+        let updateIndex;
+
+        init();
+
+        // ???? ??? ?? ??? ????? ??
+        function init() {
+            getTodoList();
+
+            showTodoList(todoList);
+        }
+
+        // ?? ??? ????? ??
+        function getTodoList() {
+            /*
+                - ???? ??? ?
+                - ??? ???? ????? ?
+                - ??? ?????? ????? ?
+
+                true / false? ??
+
+                boolean ? ???? ?? ???? ?? is ? ??.
+            */
+
+            // 1. ??? ??
+            const data1 = {
+                title: "REACT STUDY",
+                isImportant: true
+            }
+
+            const data2 = {
+                title: "HTML5, CSS3, JAVASCRIPT STUDY",
+                isImportant: false
+            }
+
+            todoList.push(data1);
+            todoList.push(data2);
+
+            todoSearchList = [...todoList];
+        }
+
+        // ???? ??? ???? ?? 
+        function showTodoList(list) {
+            // ???? ??? ??? ???
+            // 2. ?? ?? ?? 
+            let html = '';
+
+            list.map(function(data, idx) {
+                html += `<div class="item">`;
+                html += `    <div>`;
+                // html += `        <h2 class="item__title"><i class="fas fa-star"></i>${data.title}</h2>`;
+
+                /*
+                 * IF ? ??
+                 * html += `        <h2 class="item__title">`;
+                 * if(data.isImportant) {
+                 *     html += `<i class="fas fa-star"></i>`;
+                 * }
+                 * html += `${data.title}</h2>`;
+                 */
+
+                /*
+                 * ????? ??
+                 */
+                html += `        <h2 class="item__title">${data.isImportant ? '<i class="fas fa-star"></i>' : ''}${data.title}</h2>`;
+                html += `    </div>`;
+                html += `    <div>`;
+                html += `        <button type="button" class="item__btn item__btn__color-blue" onclick="modifyTodoHandler(${idx}, '${data.title}', ${data.isImportant})"><i class="fas fa-pencil-alt"></i></button>`;
+                html += `        <button type="button" class="item__btn item__btn__color-red" onclick="removeTodoHandler(${idx})"><i class="fas fa-trash-alt"></i></button>`;
+                html += `    </div>`;
+                html += `</div>`;
+            })
+
+            // 3. ?? ??? ??? ??
+            const itemList = document.getElementById("item-list-js");
+            itemList.innerHTML = html;
+        }
+
+        // ?? ?? ?? ??? ??? 
+        function searchTodoHandler() {
+            searchTodoList();
+        }
+
+        // ?? ??? Keydown ??? ???
+        function searchTodoKeydownHandler() {
+            // ?? ???? ? ??
+            if(event.keyCode === 13) {
+                // ?? ?? ??
+                searchTodoList();
+            }
+        }
+
+        // ?? ??? ???? ??
+        function searchTodoList() {
+            // 1. Input ???? ?? ???? ????.
+            const searchKeyword = document.getElementById("search-keyword-js");
+            
+            // 2. todoList ??? ?? ??? ????? ???? ??? ??? ???.
+            const searchList = [];
+            todoList.map(function(data) {
+                // data? ??? searchKeyword? ?? ?????? ?
+                /*
+                    1. indexOf - ?? ??? 0 ?? ? ?? / ?? ??? -1
+                    2. includes - ?? ??? true / ?? ??? false
+                */
+                if(data.title.toLowerCase().includes(searchKeyword.value.toLowerCase())) {
+                    searchList.push(data);
+                }
+            })
+            todoSearchList = searchList;
+            
+            // 3. ?? ??? ??? ?? ????. 
+            showTodoList(todoSearchList);
+        }
+
+        // ?? ?? ??? ??
+        function addTodoHandler() {
+            // 1. Input ???? ??? ???? ????. 
+            const inputTitle = document.getElementById("todo-title-js");
+            const inputImportant = document.getElementById("todo-important-js");
+            
+            // 2. ??? ?? (Validation) 
+            /*
+                ?? 1. inputTitle.value === ""
+                ?? 2. inputTitle.value.length < 1
+                ?? 3. !inputTitle.value
+
+                undefined null "" false 0
+
+                inputTitle.value !== undefined && inputTitle.value !== null && inputTitle.value !== ""
+                !inputTitle.value
+            */
+            if(!inputTitle.value) { 
+                alert("??? ??? ??????.");
+                inputTitle.focus();
+                return;
+            }
+
+            // 3. ??? ???? JSON ???? ????.
+            const data = {
+                title: inputTitle.value,
+                isImportant: inputImportant.checked 
+            }
+
+            // 4. ?? ???? ??? ????.
+            todoList.push(data);
+            todoSearchList = [...todoList];
+
+            // 5. ??? ?? ????. 
+            showTodoList(todoList);
+
+            // 6. ??? ?? ?????. 
+            inputTitle.value = "";
+            inputImportant.checked = false;
+
+            alert("?? ?? ?????.");
+        }
+
+        // ?? ?? ??? ??
+        function modifyTodoHandler(title, isImportant) {
+            const btnInsert = document.getElementById("btn-insert-js");
+            const btnUpdate = document.getElementById("btn-update-js");
+       
+            btnInsert.style.display = "none";
+            btnUpdate.style.display = "flex";
+
+            const inputTitle = document.getElementById("todo-title-js");
+            const inputImportant = document.getElementById("todo-important-js");
+
+            inputTitle.value = title;
+            inputImportant.checked = isImportant;
+
+            inputTitle.focus();
+
+            todoList.map(function (data, idx) {
+                if(data.title === title) {
+                    updateIndex = idx;
+                    return;
+                }
+            });
+        }
+
+        // ?? ?? ?? ??? ??
+        function updateTodoHandler() {
+            const inputTitle = document.getElementById("todo-title-js");
+            const inputImportant = document.getElementById("todo-important-js");
+            
+            todoList[updateIndex] = {
+                title: inputTitle.value,
+                isImportant: inputImportant.checked
+            }
+
+            showTodoList(todoList);
+
+            alert("?? ?????.");
+
+            inputTitle.value = "";
+            inputImportant.checked = false;
+        }
+
+        // ?? ?? ?? ???
+        function cancelTodoHandler() {
+            const btnInsert = document.getElementById("btn-insert-js");
+            const btnUpdate = document.getElementById("btn-update-js");
+
+            btnInsert.style.display = "flex";
+            btnUpdate.style.display = "none";
+        }
+
+        // ?? ?? ????? ??
+        function removeTodoHandler(idx) {
+            if(confirm("?? ?????????")) {
+                const removeData = todoSearchList[idx];
+
+                todoList.map(function(data, index) {
+                    if(data.title === removeData.title) {
+                        todoList.splice(index, 1);
+                        todoSearchList.splice(idx, 1);
+                    }
+                });
+
+                showTodoList(todoSearchList);
+
+                alert("?? ?????.");
+            }
+        }
+    </script>
+</body>
+</html>

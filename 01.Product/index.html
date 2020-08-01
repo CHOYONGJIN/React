@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8" >
+    <title>PRODUCT APP</title>
+    <link rel="stylesheet" href="./styles/main.css">
+</head>
+
+<body>
+    <div class="app">
+        <div class="app_header">
+            <div class="logoArea">
+                <h1>로고</h1>
+            </div>
+
+            <div class="searchArea">
+                <input type="text" id="search-keyword-js" onkeydown="searchKeydownHandler()"/>
+                <button type="button" onclick="searchProductHandler()"> 검색</button>
+            </div>
+        </div>
+
+        <div class="app_body">
+            <div>
+                <div class="productArea" id="product-area-js"></div>
+            </div>
+
+</div>                
+
+        <div class="app_footer">
+            <p>4LEAF SOFTWARE 2020 ALL RIGHTS RESERVED</p>
+        </div>
+    </div>
+
+    <script>
+        // Array 배열
+        // 배열 변수를 생성 (전역변수)
+        const productTotalList = []; // 상품 전체를 담는 배열;
+        let productList = []; // 실제 보여주는 배열
+        init();
+        
+        // 프로그램 실행 시, 처음에 수행할 작업
+        function init() {
+            getProductList();
+
+            showProductList(productTotalList);
+        }
+
+        // 데이터베이스에서 상품 데이터 조회
+        function getProductList() {
+            // JSON
+
+            const data1 = {
+                "name" : "노트북",
+                "price" : 1500000,
+                "state" : "구매대기"
+            }
+            const data2 = {
+                "name" : "데스크탑",
+                "price" : 1500000,
+                "state" : "구매대기"
+            }
+            const data3 = {
+                "name" : "아이패드",
+                "price" : 1500000,
+                "state" : "구매대기"
+            }
+            
+            productTotalList.push(data1);
+            productTotalList.push(data2);
+            productTotalList.push(data3);
+
+            // productList.push(data1);
+            // productList.push(data2);
+            // productList.push(data3);
+
+            // productList = [productTotalList[0], productTotalList[1], productTotalList[2]];
+
+            // ES6 ...
+            productList = [...productTotalList];
+        }
+        
+        // 검색한 키워드(상품명)에 따라서 상품을 조회하는 기능
+        function searchProductHandler()
+        {
+            // 검색 키워드
+            const searchKeyword = document.getElementById("search-keyword-js");
+            
+            // 상품이랑 키워드랑 비교 해서 상품명에 포함되는 것만 보여주기
+            // 검색 결과
+            const searchList = [];
+
+            productTotalList.map(function(product, idx) {
+                product = productTotalList[idx];
+    
+            //     // product의 name 값이랑 searchKeyword 비교
+            //     if(product.name.indexOf(searchKeyword.value) > -1)
+            //     {
+            //         searchList.push(product);
+            //     }
+            // ES6 includes
+                if(product.name.includes(searchKeyword.value))
+                {
+                    searchList.push(product);
+                }
+            });
+
+            productList = searchList;
+            // 화면을 그려주는 소스
+            showProductList(productList);
+        }
+
+        function searchKeydownHandler(){ 
+            // 엔터를 입력했을 때 검색되도록
+            if(event.keyCode === 13){ // 엔터 키 값 13
+                // 검색하기.
+                searchProductHandler();
+            }
+    }
+
+            // let html = '';
+        // for(let i = 0; i < productList.length; i ++) {
+        //     const product = productList[i];
+
+        //     // html 변수 만들고 그대로 넣어주기
+        //     html += '<div class = "productArea_box">';
+        //     html += '   <div>';
+        //     html += '       <p><span>상품명</span>' + product.name +'</p>';
+        //     html += '       <p><span>가격</span>'+ product.price +'원</p>';
+        //     html += '       <p><span>상태</span>'+ product.state + '</p>';
+        //     html += '   </div>';
+
+        //     html += '   <div>';
+        //     html += '       <button type = "button">구매</button>';
+        //     html += '       <button type = "button">삭제</button>';
+        //     html += '   </div>';
+        //     html += '</div>';
+        // }
+
+        // 상품 목록을 받아서 화면에 보여주는 기능
+        function showProductList(productList) {
+            let html = '';
+            // for(let i = 0; i < productList.length; i ++) {
+            //     const product = productList[i];
+
+                // html 변수 만들고 그대로 넣어주기
+                // html += '<div class = "productArea_box">';
+                // html += '   <div>';
+                // html += '       <p><span>상품명</span>' + product.name +'</p>';
+                // html += '       <p><span>가격</span>'+ product.price +'원</p>';
+                // html += '       <p><span>상태</span>'+ product.state + '</p>';
+                // html += '   </div>';
+
+                // html += '   <div>';
+                // html += '       <button type = "button">구매</button>';
+                // html += '       <button type = "button">삭제</button>';
+                // html += '   </div>';
+                // html += '</div>';
+
+                
+                // ES6 for문 (map)
+                productList.map(function(product, idx) {
+                    // ES6 Version.
+                    // `` 문자 + 변수
+                    html += `<div class = "productArea_box">`;
+                    html += `   <div>`;
+                    html += `       <p><span>상품명</span>${product.name}</p>`;
+                    html += `       <p><span>가격</span>${product.price}원</p>`;
+                    html += `       <p><span>상태</span>${product.state}</p>`;
+                    html += `   </div>`;
+    
+                    html += `   <div>`;
+                    html += `       <button type="button" onclick = "buyProductHandler(${idx})">구매</button>`;
+                    html += `       <button type="button" onclick = "removeProductHandler(${idx})">삭제</button>`;
+                    html += `   </div>`;
+                    html += `</div>`;
+                    
+                });
+
+        // 3. HTML 태그를 상품 영역에 삽입
+        const productArea = document.getElementById("product-area-js");
+        productArea.innerHTML = html;
+    }
+    
+    // 상품을 구매하는 기능
+    function buyProductHandler(index) {
+        productList[index].state = "구매완료";
+        
+        showProductList(productList);
+    }
+
+    // 상품을 삭제하는 기능
+    function removeProductHandler (index) {
+        
+        
+        // productList[index] 상품명 totalList 반복 돌려서
+        // 상품명 같은거 지우기
+        
+        productTotalList.map(function(product, idx) {
+            const data = productList[index];
+            
+            if(product.name === data.name) {
+                productTotalList.splice(idx, 1);
+            }
+        });
+        productList.splice(index,1);
+        showProductList(productList);
+    }
+
+    </script>
+</body>
+
+</html>

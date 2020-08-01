@@ -1,0 +1,88 @@
+d.app{
+    margin : 0px auto;
+    width: 425px;
+    border: 2px solid #a0a0a0;
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4);
+}
+
+.app .app_header {
+    display: flex;
+    justify-content: space-around;/*자식들을 센터로 배치할떄, 양끝에넣을떄*/
+    align-items: center;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+.app .app_header .logoArea h1 {
+    font-size : 24px;
+    color : #343434;
+}
+
+.app .app_header .searchArea input {
+    padding : 0 5px;
+    width : 200px;
+    height : 25px;
+    border : 1px solid #c7c7c7;
+    border-radius : 3px;
+}
+
+.app .app_header .searchArea button {
+    height : 25px;
+    background : #545353;
+    border : 1px solid #dedede;
+    border-radius : 3px;
+    color : #fff;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.app .app_body .productArea {
+display: flex;
+flex-direction:  column;
+align-items: center;
+padding : 20px 0;
+}
+
+.app .app_body .productArea .productArea_box {
+    margin : 10px auto;
+    width: 300px;
+    border: 1px solid #eeeeee;
+    border-radius: 10px;
+    box-shadow: 2px 2px 2px #eeeeee;
+}
+
+.app_body .productArea .productArea_box > div > p {
+    display: flex;
+    justify-content: space-between;
+    padding : 0 30px;
+    font-size: 14px;
+}
+
+.app_body .productArea .productArea_box > div > p > span{
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.app .app_body .productArea .productArea_box > div:last-child {
+    display: flex;
+    border-top: 1px solid #eeeeee;  
+}
+
+.app .app_body .productArea .productArea_box button {
+    padding : 10px 0;
+    width: 50%;
+    background : #fff;
+    border : none;
+    cursor: pointer;
+}
+.app .app_footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height : 80px;
+    border-top : 1px solid #dedede;
+}
+
+.app .app_footer p {
+    font-size: 14px;
+}
