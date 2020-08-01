@@ -1,0 +1,52 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background: #292643;
+}
+
+.header .header_logo {
+
+}
+
+.header .header_logo > h1 {
+
+}
+
+.header .header_menu {
+
+}
+
+.header .header_util {
+    
+}
+
+.header .header_util > ul{
+    display: flex;
+    align-items: center;
+}
+
+.header .header_gnb {
+    
+}
+
+.header .header_gnb > ul {
+    display: flex;
+    align-items: center;
+}
+
+.content .content_page {
+
+    display: none;
+}
+
+.content .content_page.active {
+    display: block;
+}
